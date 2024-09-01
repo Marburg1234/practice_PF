@@ -21,13 +21,13 @@
     </select>
   </div>
 
-  <!--実験 language選択-->
+  <!--実験 母国語language選択-->
   <div class="field">
     <%= f.label :母国語 %><br />
     <%= f.select :language, options_from_collection_for_select(Language.all, :id, :name), include_blank: true %>
   </div>
 
-  <!--実験 language選択-->
+  <!--実験 学習中の言語language選択-->
   <div class="field">
     <%= f.label :学習中の言語 %><br />
     <%= f.select :language, options_from_collection_for_select(Language.all, :id, :name), include_blank: true %>
