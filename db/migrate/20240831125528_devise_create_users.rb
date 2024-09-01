@@ -34,6 +34,7 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
 
       t.integer :country_id
       t.integer :region_id
+      t.integer :language_id
 
 
       t.timestamps null: false

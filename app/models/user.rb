@@ -6,5 +6,6 @@ class User < ApplicationRecord
 
   belongs_to :country
   belongs_to :region
+  belongs_to :language
 
 end

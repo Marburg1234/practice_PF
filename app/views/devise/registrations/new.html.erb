@@ -15,8 +15,22 @@
 
   <!--実験 Region選択-->
   <div class="field">
-    <%= f.label :地域 %><br />
-    <%= f.select :region_id, options_from_collection_for_select(Region.all, :id, :name), include_blank: true, id: 'user_region_id' %>
+    <label for="user_region_id">地域</label><br>
+    <select name="user[region_id]" id="user_region_id">
+      <%= options_for_select(Region.all.map { |region| [region.name, region.id] }) %>
+    </select>
+  </div>
+
+  <!--実験 language選択-->
+  <div class="field">
+    <%= f.label :母国語 %><br />
+    <%= f.select :language, options_from_collection_for_select(Language.all, :id, :name), include_blank: true %>
+  </div>
+
+  <!--実験 language選択-->
+  <div class="field">
+    <%= f.label :学習中の言語 %><br />
+    <%= f.select :language, options_from_collection_for_select(Language.all, :id, :name), include_blank: true %>
   </div>
 
 
@@ -41,6 +55,17 @@
 <%= render "devise/shared/links" %>
 
 <script>
+  document.addEventListener('DOMContentLoaded', function() {
+  var countrySelect = document.getElementById('user_country_id');
+  countrySelect.addEventListener('change', updateRegions);
+});
+
+function updateRegions() {
+  console.log("updateRegions() 関数が呼び出されました。");
+
+  // 以下、地域の選択肢を更新するコード...
+
+
 function updateRegions() {
   var countryId = document.getElementById('user_country_id').value;
 
@@ -64,5 +89,6 @@ function updateRegions() {
     }
   };
   xhr.send();
+}
 }
 </script>
