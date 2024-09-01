@@ -1,0 +1,68 @@
+<h2>Sign up</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+  </div>
+  <!--実験 country選択-->
+  <div class="field">
+    <%= f.label :出身国 %><br />
+    <%= f.select :country_id, options_from_collection_for_select(Country.all, :id, :name), include_blank: true, onchange: "updateRegions()" %>
+  </div>
+
+  <!--実験 Region選択-->
+  <div class="field">
+    <%= f.label :地域 %><br />
+    <%= f.select :region_id, options_from_collection_for_select(Region.all, :id, :name), include_blank: true, id: 'user_region_id' %>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
+  </div>
+
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up" %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>
+
+<script>
+function updateRegions() {
+  var countryId = document.getElementById('user_country_id').value;
+
+  // Ajaxリクエストを実行して地域データを取得
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/regions?country_id=' + countryId, true);
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      var regions = JSON.parse(xhr.responseText);
+
+      var regionSelect = document.getElementById('user_region_id');
+      regionSelect.innerHTML = '';
+
+      // 新しい選択肢を作成して追加
+      for (var i = 0; i < regions.length; i++) {
+        var option = document.createElement('option');
+        option.value = regions[i].id;
+        option.text = regions[i].name;
+        regionSelect.add(option);
+      }
+    }
+  };
+  xhr.send();
+}
+</script>
